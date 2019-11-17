@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+<title>基于GANs的动漫面孔自生成demo~</title>
+</head>
+<body>
+
+    <p style="text-align: center">
+        <font size="13" color="white">基于GANs的动漫面孔自生成demo~T^T</font> <br />
+        <font class="head1" size="4" color="white">(QAQ实在不会前端那几个东西，，)</font>
+    </p>
+    <p style="text-align: left;font-size:20px;color:ghostwhite;padding-left:30px;padding-right:30px"> &nbsp;&nbsp;&nbsp;&nbsp;<b>这是一个简单的说明：</b>此项目起源于数月前研究GANs(生成对抗网络)时无意中发现GANs可以生成动漫风格的面孔,便一时兴起实现了GANs在动漫面孔上的应用。最开始尝试了经典的DCGAN网络,但由于网络本身的缺点(疯狂反卷积QAQ),只能生成到96x96的图片,并且训练过久后会发散或崩溃,其展示在中；随后尝试了StyleGAN,此网络于18年底由NIVIDA发布并开源,可生成分辨率高达1024x1024的图片,经考虑(NIVIDA卡多(⊙﹏⊙))选取生成512x512的图片,其展示在左，其中truncation为截断参数,建议0.7(高了有鬼)；最后考虑到StyleGAN可进行迁移训练把生成的图像集中到特定角色上，故在已训练成的模型上进行迁移学习,其展示在右(因设备因素还没训练完,断电啊...,放个小花吧~)。训练数据集取自<a style="color:cyan" href="https://konachan.com/">konachan</a>,<a style="color:cyan" href="https://safebooru.donmai.us/">safebooru</a>,<a style="color:cyan" href="https://safebooru.org/">safebooru-org</a>等,用<a style="color:cyan" href="https://github.com/nagadomi/lbpcascade_animeface">lbpcascade_animeface</a>截取后使用。<a style="color:cyan" href="https://github.com/LZ-QWQ/GANs_anime_face_mua">代码在这</a> </p>
+    <div style="text-align: center">
+        <font size="5" color="white"> <b>PS:所有图片均为调用部署的API即时生成的,因此加载需要几秒钟。(所有模型均不可进行交互控制生成与修改图片,只能随机切换=_=,这涉及制作标签、反编码、计算方向向量的事情...做不完emmm)</b> </font> <br>
+    </div>
+
+    <br />
+    <div id="container_pic">
+        <div class="divwkj">
+            <font size="6" color="white"><b>StyleGAN_QAQ</b></font><br><br>
+            <div class="divimg">
+                <img id="QAQ" class="class1" src="http://10.170.15.112:5000/QAQ" alt="" onclick='QAQ()' />
+            </div>
+            <div> <font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
+            <input id="QAQ_truncation" class="putin" type="number" min="-2" max="2" step="0.1" value="0.7" /><br>
+        </div>
+        <div class="divwkj">
+            <font size="6" color="white"><b>DCGAN_OvO<br /></b></font><small style="color:white">（很丑）</small><br>
+            <div class="divimg">
+                <img id="OvO" class="class1" src="http://10.170.15.112:5000/OvO" alt="" onclick='OvO()' />
+            </div>
+            <div><font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
+        </div>
+        <div class="divwkj">
+            <font size="6" color="white"><b>StyleGAN_QwQ</b></font><br><br>
+            <div class="divimg">
+                <img id="QwQ" class="class1" src="static\hana.jpg" alt="" onclick='QwQ()' />
+            </div>
+            <div><font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
+            <input id="QWQ_truncation" class="putin" type="number" min="-2" max="2" step="0.1" value="0.7" /><br>
+        </div>
+    </div>
+
+    <br />
+    <div id="container_train">
+        <div class="train_video_div">
+            <font size="4" color="white"><b>DCGAN训练过程~</b></font><br />
+            <video width="480" height="270" controls>
+                <source src="static/video/d_train.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <div class="train_video_div">
+            <font size="4" color="white"><b>StyleGAN训练过程~</b></font><br />
+            <video width="480" height="270" controls>
+                <source src="static/video/s_train.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+
+    <br />
+    <div id="container_sample">
+        <div class="sample_video_div">
+            <font id="stylegan2_text" size="5" color="white"><b>StyleGAN样例_1~</b></font><br />
+            <video width="640" height="360" controls>
+                <source src="static/video/video1.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <div class="sample_video_div">
+            <font id="stylegan2_text" size="5" color="white"><b>StyleGAN样例_2~</b></font><br />
+            <video width="640" height="360" controls>
+                <source src="static/video/video1.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <br />
+        <div class="sample_video_div">
+            <font size="5" color="white"><b>StyleGAN样例_3~</b></font><br />
+            <video width="640" height="360" controls>
+                <source src="static/video/video1.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <div class="sample_video_div">
+            <font size="5" color="white"><b>StyleGAN样例_4~</b></font><br />
+            <video width="640" height="360" controls>
+                <source src="static/video/video1.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    url = 'http://10.170.15.112:5000'
+    function QAQ() {
+      var truncation = document.getElementById("QAQ_truncation").value;
+        fetch(url +'/QAQ?truncation='+ truncation.toString(), { cache: 'no-cache' }).then(response => response.blob())
+          .then(data => {
+              document.getElementById("QAQ").src = URL.createObjectURL(data);             
+          });
+    }
+   function OvO() {
+       fetch(url+'/OvO', { cache: 'no-cache' }).then(response => response.blob())
+            .then(data => {
+                document.getElementById("OvO").src = URL.createObjectURL(data);
+            });
+    }
+</script>
+
+<style type="text/css">
+    body {
+        background: url(static/darling.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+
+    video {
+        outline: none;
+    }
+
+    #OvO {
+        outline: none;
+        width: 96px;
+        height: 96px;
+        border-radius: 15px;
+        transition-duration: 500ms;
+        transition-timing-function: linear;
+    }
+
+    img {
+        outline: none;
+        width: 300px;
+        height: 300px;
+        border-radius: 15px;
+        transition-duration: 500ms;
+        transition-timing-function: linear;
+    }
+
+        img:hover {
+            border-radius: 15px;
+            width: 512px;
+            height: 512px;
+            transition-duration: 500ms;
+            transition-timing-function: linear;
+        }
+
+    #container_pic {
+        display:flex;
+        text-align: center;
+        overflow: auto;
+        width: auto;
+        height: auto;
+    }
+
+    #container_train {
+        display: flex;
+        text-align: center;
+        overflow: auto;
+        width: auto;
+        height: auto;
+    }
+
+    #container_sample {
+        display: flex;
+        text-align: center;
+        overflow:auto;
+        width: auto;
+        height: auto;
+    }
+
+    .divwkj {
+        overflow: auto;
+        border-radius: 15px;
+        width: auto;
+        height: auto;
+        margin: auto;
+        background: #f50057;
+        transition-duration: 500ms;
+        transition-timing-function: ease;
+    }
+
+        .divwkj:hover {
+            border-radius: 15px;
+            margin: auto;
+            background: #2196f3;
+            transition-duration: 500ms;
+            transition-timing-function: ease;
+        }
+
+    .font1 {
+        color: cyan;
+        transition-duration: 500ms;
+        transition-timing-function: ease;
+    }
+
+        .font1:hover {
+            color: #FFFFFF;
+            transition-duration: 500ms;
+            transition-timing-function: ease;
+        }
+
+    .putin {
+        border-radius: 5px;
+        background: transparent;
+        text-align: center;
+        font-size: 30px;
+        width: 60px;
+        height: 30px;
+        border-color: #FFFFFF;
+        color: #FFFFFF;
+    }
+
+    .train_video_div {
+        width: auto;
+        height: auto;
+        margin:auto;
+    }
+
+    .sample_video_div {
+        width: auto;
+        height: auto;
+        margin: auto;
+    }
+
+</style>
