@@ -9,7 +9,7 @@ import PIL.Image
 from io import BytesIO
 import tensorflow as tf
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 app=Flask('QAQ')
 api = Api(app)
