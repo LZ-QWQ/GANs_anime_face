@@ -16,7 +16,7 @@ def main():
     # url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ'
     # with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
     ## NOTE: insert model here:
-    _G, _D, Gs = pickle.load(open("results/02047-sgan-faces-2gpu/network-snapshot-013221.pkl", "rb"))
+    Gs = pickle.load(open("QAQ_Gs.pkl", "rb"))
     # _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
     # _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
     # Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.

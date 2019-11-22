@@ -16,7 +16,9 @@ from metrics import metric_base
 
 #----------------------------------------------------------------------------
 # Official training configs for StyleGAN, targeted mainly for FFHQ.
-
+config.result_dir='results_transfer'
+print(config.result_dir)
+#emmm~
 if 1:
     desc          = 'sgan'                                                                 # Description string included in result subdir name.
     train         = EasyDict(run_func_name='training.training_loop.training_loop')         # Options for training loop.
@@ -41,10 +43,11 @@ if 1:
     #desc += '-bedroom';  dataset = EasyDict(tfrecord_dir='lsun-bedroom-full');    train.mirror_augment = False
     #desc += '-car';      dataset = EasyDict(tfrecord_dir='lsun-car-512x384');     train.mirror_augment = False
     #desc += '-cat';      dataset = EasyDict(tfrecord_dir='lsun-cat-full');        train.mirror_augment = False
-    desc += '-anime';     dataset = EasyDict(tfrecord_dir='anime', resolution=512); train.mirror_augment = False #试试False行不行
+    desc += '-transfer';     dataset = EasyDict(tfrecord_dir='transfer', resolution=512); train.mirror_augment = False #试试False行不行
 
     # Number of GPUs.
-    desc += '-1gpu'; submit_config.num_gpus = 1; sched.minibatch_base = 4; sched.minibatch_dict = {4: 128, 8: 128, 16: 128, 32: 64, 64: 32, 128: 16, 256: 8, 512: 4}
+    #desc += '-1gpu'; submit_config.num_gpus = 1; sched.minibatch_base = 4; sched.minibatch_dict = {4: 128, 8: 128, 16: 128, 32: 64, 64: 32, 128: 16, 256: 8, 512: 4}
+    desc += '-1gpu'; submit_config.num_gpus = 1; sched.minibatch_base = 4; sched.minibatch_dict = {4: 64, 8: 64, 16: 64, 32: 32, 64: 16, 128: 8, 256: 4, 512: 2}
     #desc += '-2gpu'; submit_config.num_gpus = 2; sched.minibatch_base = 8; sched.minibatch_dict = {4: 256, 8: 256, 16: 128, 32: 64, 64: 32, 128: 16, 256: 8}
     #desc += '-4gpu'; submit_config.num_gpus = 4; sched.minibatch_base = 16; sched.minibatch_dict = {4: 512, 8: 256, 16: 128, 32: 64, 64: 32, 128: 16}
     #desc += '-8gpu'; submit_config.num_gpus = 8; sched.minibatch_base = 32; sched.minibatch_dict = {4: 512, 8: 256, 16: 128, 32: 64, 64: 32}
@@ -53,7 +56,7 @@ if 1:
     train.total_kimg = 25000
     sched.lod_initial_resolution = 8
     #sched.G_lrate_dict = {128: 0.0015, 256: 0.002, 512: 0.003, 1024: 0.003}
-    sched.G_lrate_dict = {128: 0.0010, 256: 0.0015, 512: 0.002, 1024: 0.003}
+    sched.G_lrate_dict = {128: 0.0008, 256: 0.001, 512: 0.0015, 1024: 0.0025}
     sched.D_lrate_dict = EasyDict(sched.G_lrate_dict)
 
     # WGAN-GP loss for CelebA-HQ.

@@ -2,7 +2,9 @@ datasets/
 __pycache__/
 cache/
 results/
-anime_H_style/
+results_transfer/
+data/
+anime_transfer/
 QAQQAQ/
 waifu2x-caffe/
 image_save/
@@ -13,3 +15,6 @@ convert2lite_ckpt/
 model/
 video/
 .vs/
+classify_model/
+G_images/
+G_latents(0.7)/

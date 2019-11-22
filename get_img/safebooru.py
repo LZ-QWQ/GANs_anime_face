@@ -74,10 +74,10 @@ if __name__=='__main__':
     for i in range(startpage, numpages + 1):
         proxies = { "http": "http://127.0.0.1:1080" }
         headers = {'content-type':'application/json'}
-        payload = {'login':'LZ_QAQ','api_key':'FGTgEpCuYRXkKZbhzDgR66S3','limit':'200','page':'a%d' %(i)}
-        url='https://safebooru.donmai.us/posts.json?'
+        #payload = {'login':'LZ_QAQ','api_key':'FGTgEpCuYRXkKZbhzDgR66S3','limit':'200','page':'a%d' %(i)}
+        url='https://danbooru.donmai.us/posts.json?tags=bang_dream%21&page=200'
         #url='https://safebooru.donmai.us/posts.json?page=a990000'
-        html = requests.get(url,proxies=proxies,headers=headers,params=payload)
+        html = requests.get(url,proxies=proxies,headers=headers)
         #print(html.headers.get('content-type'))
         html=html.json()
         for emmm in html:

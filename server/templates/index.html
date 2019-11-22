@@ -9,9 +9,9 @@
         <font size="13" color="white">基于GANs的动漫面孔自生成demo~T^T</font> <br />
         <font class="head1" size="4" color="white">(QAQ实在不会前端那几个东西，，)</font>
     </p>
-    <p style="text-align: left;font-size:20px;color:ghostwhite;padding-left:30px;padding-right:30px"> &nbsp;&nbsp;&nbsp;&nbsp;<b>这是一个简单的说明：</b>此项目起源于数月前研究GANs(生成对抗网络)时无意中发现GANs可以生成动漫风格的面孔,便一时兴起实现了GANs在动漫面孔上的应用。最开始尝试了经典的DCGAN网络,但由于网络本身的缺点(疯狂反卷积QAQ),只能生成到96x96的图片,并且训练过久后会发散或崩溃,其展示在中；随后尝试了StyleGAN,此网络于18年底由NIVIDA发布并开源,可生成分辨率高达1024x1024的图片,经考虑(NIVIDA卡多(⊙﹏⊙))选取生成512x512的图片,其展示在左，其中truncation为截断参数,建议0.7(高了有鬼)；最后考虑到StyleGAN可进行迁移训练把生成的图像集中到特定角色上，故在已训练成的模型上进行迁移学习,其展示在右(因设备因素还没训练完,断电啊...,放个小花吧~)。训练数据集取自<a style="color:cyan" href="https://konachan.com/">konachan</a>,<a style="color:cyan" href="https://safebooru.donmai.us/">safebooru</a>,<a style="color:cyan" href="https://safebooru.org/">safebooru-org</a>等,用<a style="color:cyan" href="https://github.com/nagadomi/lbpcascade_animeface">lbpcascade_animeface</a>截取后使用。<a style="color:cyan" href="https://github.com/LZ-QWQ/GANs_anime_face_mua">代码在这</a> </p>
+    <p style="text-align: left;font-size:20px;color:ghostwhite;padding-left:30px;padding-right:30px"> &nbsp;&nbsp;&nbsp;&nbsp;<b>这是一个简单的说明：</b>这是一个基于GANs（生成对抗网络）自动生成动漫面孔的尝试。最开始尝试了经典的DCGAN网络,但由于网络本身的缺点(疯狂反卷积QAQ),只能生成到96x96的图片,并且训练过久后会发散或崩溃,其展示在中；随后尝试了StyleGAN,此网络于18年底由NVIDIA发布并开源,可生成分辨率高达1024x1024的图片,经考虑(NVIDIA卡多(⊙﹏⊙))选取生成512x512的图片,其展示在左，其中truncation为截断参数,建议0.7(高了有鬼)；最后考虑到StyleGAN可进行迁移训练把生成的图像集中到特定角色上，故在已训练成的模型上进行迁移学习,其展示在右。训练数据集取自<a style="color:cyan" href="https://konachan.com/">konachan</a>,<a style="color:cyan" href="https://safebooru.donmai.us/">safebooru</a>,<a style="color:cyan" href="https://safebooru.org/">safebooru-org</a>等,迁移学习数据集取自<a style="color:cyan" href="https://www.bilibili.com/bangumi/media/md5807/?spm_id_from=666.25.b_6d656469615f6d6f64756c65.2">Bang Dream第一季</a>,用<a style="color:cyan" href="https://github.com/nagadomi/lbpcascade_animeface">lbpcascade_animeface</a>截取、<a style="color:cyan" href="https://github.com/nagadomi/waifu2x">waifu2x</a>放大后使用。<a style="color:cyan" href="https://github.com/LZ-QWQ/GANs_anime_face_mua">代码在这</a>~</p>
     <div style="text-align: center">
-        <font size="5" color="white"> <b>PS:所有图片均为调用部署的API即时生成的,因此加载需要几秒钟。(所有模型均不可进行交互控制生成与修改图片,只能随机切换=_=,这涉及制作标签、反编码、计算方向向量的事情...做不完emmm)</b> </font> <br>
+        <font size="5" color="white"> <b>PS:所有图片均为调用部署的API即时生成的,因此加载需要几秒钟。</b> </font> <br>
     </div>
 
     <br />
@@ -19,25 +19,27 @@
         <div class="divwkj">
             <font size="6" color="white"><b>StyleGAN_QAQ</b></font><br><br>
             <div class="divimg">
-                <img id="QAQ" class="class1" src="http://10.170.15.112:5000/QAQ" alt="" onclick='QAQ()' />
+                <img id="QAQ" class="class1" src=QAQ alt="" onclick='QAQ()' />
             </div>
             <div> <font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
             <input id="QAQ_truncation" class="putin" type="number" min="-2" max="2" step="0.1" value="0.7" /><br>
+            <input id="blue_hair" class="slid" type="range" min="-2" max="2" step="0.1" value="0.0" />
+            <font size="3" color="white"><b>蓝色头发！(初始0，范围-2~2)</b></font><br>
         </div>
         <div class="divwkj">
             <font size="6" color="white"><b>DCGAN_OvO<br /></b></font><small style="color:white">（很丑）</small><br>
             <div class="divimg">
-                <img id="OvO" class="class1" src="http://10.170.15.112:5000/OvO" alt="" onclick='OvO()' />
+                <img id="OvO" class="class1" src=OvO alt="" onclick='OvO()' />
             </div>
             <div><font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
         </div>
         <div class="divwkj">
-            <font size="6" color="white"><b>StyleGAN_QwQ</b></font><br><br>
+            <font size="6" color="white"><b>StyleGAN_QwQ迁移</b></font><br><br>
             <div class="divimg">
-                <img id="QwQ" class="class1" src="static\hana.jpg" alt="" onclick='QwQ()' />
+                <img id="QwQ" class="class1" src="QwQ" alt="" onclick='QwQ()' />
             </div>
             <div><font class="font1" size="5"><b>点击图片切换下一张</b></font></div><br>
-            <input id="QWQ_truncation" class="putin" type="number" min="-2" max="2" step="0.1" value="0.7" /><br>
+            <input id="QwQ_truncation" class="putin" type="number" min="-2" max="2" step="0.1" value="0.7" /><br>
         </div>
     </div>
 
@@ -68,20 +70,20 @@
         <div class="sample_video_div">
             <font id="stylegan2_text" size="5" color="white"><b>StyleGAN样例_2~</b></font><br />
             <video width="640" height="360" controls>
-                <source src="static/video/video1.mp4" type="video/mp4" />
+                <source src="static/video/video2.mp4" type="video/mp4" />
             </video>
         </div>
         <br />
         <div class="sample_video_div">
             <font size="5" color="white"><b>StyleGAN样例_3~</b></font><br />
             <video width="640" height="360" controls>
-                <source src="static/video/video1.mp4" type="video/mp4" />
+                <source src="static/video/video3.mp4" type="video/mp4" />
             </video>
         </div>
         <div class="sample_video_div">
             <font size="5" color="white"><b>StyleGAN样例_4~</b></font><br />
             <video width="640" height="360" controls>
-                <source src="static/video/video1.mp4" type="video/mp4" />
+                <source src="static/video/video4.mp4" type="video/mp4" />
             </video>
         </div>
     </div>
@@ -90,16 +92,26 @@
 </html>
 
 <script>
-    url = 'http://10.170.15.112:5000'
+    var url = document.URL
     function QAQ() {
-      var truncation = document.getElementById("QAQ_truncation").value;
-        fetch(url +'/QAQ?truncation='+ truncation.toString(), { cache: 'no-cache' }).then(response => response.blob())
+        var truncation = document.getElementById("QAQ_truncation").value;
+        var blue_hair = document.getElementById("blue_hair").value;
+        fetch(url + 'QAQ?truncation=' + truncation.toString() + '&blue_hair=' + blue_hair.toString(), { cache: 'no-cache' }).then(response => response.blob())
           .then(data => {
               document.getElementById("QAQ").src = URL.createObjectURL(data);             
           });
     }
+
+    function QwQ() {
+        var truncation = document.getElementById("QwQ_truncation").value;        
+        fetch(url + 'QwQ?truncation=' + truncation.toString(), { cache: 'no-cache' }).then(response => response.blob())
+            .then(data => {
+                document.getElementById("QwQ").src = URL.createObjectURL(data);
+            });
+    }
+
    function OvO() {
-       fetch(url+'/OvO', { cache: 'no-cache' }).then(response => response.blob())
+       fetch(url+'OvO', { cache: 'no-cache' }).then(response => response.blob())
             .then(data => {
                 document.getElementById("OvO").src = URL.createObjectURL(data);
             });
@@ -120,7 +132,6 @@
     }
 
     #OvO {
-        outline: none;
         width: 96px;
         height: 96px;
         border-radius: 15px;
@@ -128,8 +139,15 @@
         transition-timing-function: linear;
     }
 
+        #OvO:hover {
+            border-radius: 15px;
+            width: 128px;
+            height: 128px;
+            transition-duration: 500ms;
+            transition-timing-function: linear;
+        }
+
     img {
-        outline: none;
         width: 300px;
         height: 300px;
         border-radius: 15px;

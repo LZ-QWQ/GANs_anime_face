@@ -7,7 +7,7 @@ import dnnlib
 import dnnlib.tflib as tflib
 import config
 import scipy
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 def main():
 
     tflib.init_tf()
@@ -16,7 +16,7 @@ def main():
     # url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ'
     # with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
     ## NOTE: insert model here:
-    _G, _D, Gs = pickle.load(open("anime_QAQ.pkl", "rb"))
+    Gs = pickle.load(open("QAQ_Gs.pkl", "rb"))
     # _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
     # _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
     # Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
@@ -151,7 +151,8 @@ def main():
     mp4_fps = 20
 
     num_frames = int(np.rint(duration_sec * mp4_fps))
-    random_seed = 503
+    #random_seed = 503换下~
+    random_seed = 500
     random_state = np.random.RandomState(random_seed)
 
 
